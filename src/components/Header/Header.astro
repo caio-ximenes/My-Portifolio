@@ -1,0 +1,81 @@
+---
+---
+
+<header id="site-header" class="fixed top-0 left-0 right-0 z-[100] h-[68px] bg-bg/70 backdrop-blur-[18px] border-b border-border transition-all duration-300">
+  <div class="container-main h-full flex items-center justify-between">
+
+    <a href="#home" class="font-mono text-[0.95rem] tracking-tight text-dim hover:text-content transition-colors duration-300" aria-label="Go to top">
+      <span class="text-neon-cyan opacity-70">&lt;</span>caio<span class="text-neon-purple">.</span>dev<span class="text-neon-cyan opacity-70">/&gt;</span>
+    </a>
+
+    <nav class="flex gap-1 items-center" aria-label="Main navigation">
+      <a href="#home"     data-section="home"     class="nav-link">Home</a>
+      <a href="#about"    data-section="about"    class="nav-link">About</a>
+      <a href="#projects" data-section="projects" class="nav-link">Projects</a>
+      <a href="#contact"  data-section="contact"  class="nav-link">Contact</a>
+      <a href="#resume"   data-section="resume"   class="nav-link">Resume</a>
+    </nav>
+
+  </div>
+</header>
+
+<style>
+  #site-header.scrolled {
+    background: rgba(42, 33, 53, 0.92);
+    box-shadow: 0 1px 0 var(--color-border), 0 4px 32px rgba(0,0,0,0.3);
+  }
+
+  .nav-link {
+    position: relative;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-muted);
+    border-radius: var(--radius-sm);
+    transition: color 0.28s ease, background 0.28s ease;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 60%;
+    height: 1px;
+    background: var(--color-neon-cyan);
+    box-shadow: 0 0 8px var(--color-neon-cyan);
+    transition: transform 0.25s ease;
+    border-radius: 99px;
+  }
+  .nav-link:hover {
+    color: var(--color-content);
+    background: rgba(255,255,255,0.04);
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after { transform: translateX(-50%) scaleX(1); }
+  .nav-link.active         { color: var(--color-neon-cyan); }
+</style>
+
+<script>
+  const header   = document.getElementById('site-header')!;
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link');
+  const sections = document.querySelectorAll<HTMLElement>('section[id]');
+
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  const spy = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach((a) => a.classList.toggle('active', a.dataset.section === id));
+        }
+      });
+    },
+    { rootMargin: '-40% 0px -55% 0px' }
+  );
+  sections.forEach((s) => spy.observe(s));
+</script>

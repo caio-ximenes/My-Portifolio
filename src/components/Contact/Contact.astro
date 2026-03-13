@@ -1,0 +1,70 @@
+---
+---
+
+<section id="contact" class="relative py-[clamp(80px,12vw,140px)] bg-bg-alt overflow-hidden">
+
+  <!-- Top rule -->
+  <div class="absolute top-0 left-0 right-0 h-px
+              bg-gradient-to-r from-transparent via-neon-cyan to-transparent opacity-25"
+       aria-hidden="true"></div>
+
+  <!-- Ambient orb -->
+  <div class="absolute bottom-[-100px] right-[-100px] w-[400px] h-[400px]
+              bg-neon-cyan rounded-full blur-[130px] opacity-[0.05] pointer-events-none"
+       aria-hidden="true"></div>
+
+  <div class="container-main flex flex-col items-center text-center">
+    <div class="reveal flex flex-col items-center gap-5 max-w-[540px]">
+
+      <p class="section-label">Contact</p>
+
+      <h2 class="section-title">
+        Let's build something<br />
+        <span class="neon-text">together.</span>
+      </h2>
+
+      <p class="text-muted text-[1rem] leading-[1.75] max-w-[400px]">
+        Whether it's a project, a collaboration, or just a conversation about
+        technology — my inbox is open.
+      </p>
+
+      <a href="https://cal.com/caio-ximenes-f9xwfk" class="contact-btn relative inline-flex items-center gap-[10px] mt-2
+                        px-[34px] py-[14px] font-mono text-[0.85rem] tracking-[0.08em]
+                        font-bold text-bg bg-neon-cyan rounded-sm overflow-hidden
+                        transition-all duration-300 hover:-translate-y-[3px]"
+         aria-label="schedule a meeting">
+        <span class="relative z-[1]">say hello</span>
+        <svg class="relative z-[1] transition-transform duration-200 group-hover:translate-x-1"
+             width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+
+    </div>
+  </div>
+
+</section>
+
+<style>
+  /* Gradient shine layer + neon glow — pseudo-element + multi-shadow */
+  .contact-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--color-neon-cyan), var(--color-neon-blue));
+    opacity: 0;
+    transition: opacity 0.28s ease;
+  }
+  .contact-btn:hover::before { opacity: 1; }
+  .contact-btn:hover {
+    box-shadow:
+      0 0 24px rgba(207,255,139,0.5),
+      0 0 60px rgba(207,255,139,0.2),
+      0 12px 32px rgba(0,0,0,0.3);
+  }
+  .contact-btn svg { transition: transform 0.22s ease; }
+  .contact-btn:hover svg { transform: translateX(4px); }
+</style>

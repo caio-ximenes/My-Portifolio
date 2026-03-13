@@ -1,0 +1,96 @@
+---
+---
+
+<section id="home" class="relative min-h-[97vh] flex items-center overflow-hidden pt-[68px]">
+
+  <!-- Content -->
+  <div class="container-main relative z-10 py-[clamp(40px,8vw,80px)]">
+
+    <div class="hero-eyebrow reveal mb-6">
+      <span class="mono-tag">hello, world.</span>
+    </div>
+
+    <h1 class="reveal reveal-delay-1 mb-7
+               text-[clamp(2.8rem,7vw,5.5rem)] font-extrabold tracking-[-0.045em]
+               leading-[1.05] text-content min-h-[2.1em]">
+      <span id="typewriter-text"></span><span class="typewriter-cursor">|</span>
+    </h1>
+
+    <p class="reveal reveal-delay-2 mb-11 max-w-[500px]
+              text-[clamp(1rem,1.8vw,1.15rem)] text-muted leading-[1.75]">
+      Front-end developer focused on clean architecture,<br />
+      meaningful interactions, and fast interfaces.
+    </p>
+
+    <div class="reveal reveal-delay-3 flex gap-[14px] flex-wrap">
+      <a href="#projects" class="btn-primary">View my work</a>
+      <a href="#contact"  class="btn-ghost">Get in touch</a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="reveal reveal-delay-4 absolute bottom-12 left-[clamp(20px,5vw,60px)]
+                flex flex-col items-center gap-2" aria-hidden="true">
+    </div>
+  </div>
+
+
+
+</section>
+
+<style>
+  .scroll-line { animation: scroll-pulse 2s ease-in-out infinite; }
+
+  /* Blinking cursor for the JS typewriter */
+  .typewriter-cursor {
+    color: var(--color-neon-cyan);
+    font-weight: 300;
+    animation: blink-caret 0.85s step-end infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes blink-caret {
+    from, to { opacity: 0; }
+    50% { opacity: 1; }
+  }
+</style>
+
+<script>
+  // Robust vanilla JS typewriter that supports HTML tags
+  const textToType = 'Building things<br/>for the <span class="neon-text">web.</span>';
+  const container = document.getElementById('typewriter-text');
+  
+  if (container) {
+    let index = 0;
+    let isTag = false;
+    let currentHtml = '';
+    
+    // Slight delay to sync with the "reveal" animation
+    setTimeout(() => { type(); }, 600);
+
+    function type() {
+      if (!container) return;
+      if (index < textToType.length) {
+        const char = textToType.charAt(index);
+        
+        // Fast-forward through HTML tags so they render instantly and don't show up as plain text
+        if (char === '<') isTag = true;
+        
+        currentHtml += char;
+        
+        if (char === '>') isTag = false;
+
+        // Only update innerHTML when we are NOT in the middle of a tag
+        if (!isTag) {
+            container.innerHTML = currentHtml;
+        }
+        
+        index++;
+
+        // If we just processed part of a tag, type the next char immediately.
+        // Otherwise, add random typing delay for realism.
+        const delay = isTag ? 0 : Math.random() * 70 + 70;
+        setTimeout(type, delay);
+      }
+    }
+  }
+</script>

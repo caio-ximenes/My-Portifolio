@@ -1,0 +1,143 @@
+---
+import { projects } from '../../data/projects';
+---
+
+<section id="projects" class="py-[clamp(80px,12vw,140px)] bg-bg">
+  <div class="container-main">
+
+    <div class="mb-[clamp(40px,6vw,72px)] max-w-[560px]">
+      <p class="section-label reveal">Projects</p>
+      <h2 class="section-title reveal reveal-delay-1 mb-[14px]">
+        Stuff I've <span class="neon-text">built.</span>
+      </h2>
+      <p class="reveal reveal-delay-2 text-muted text-[0.96rem]">
+        A selection of personal and professional projects. Hover to explore.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5">
+      {projects.map((project, i) => (
+        <div class="reveal h-full">
+          <article
+            class={`project-card h-full relative cursor-default transition-transform duration-[600ms] ease-out delay-200`}
+            style={`--card-color: ${project.color};`}
+          >
+            <div class={`tilt-layer h-full w-full relative bg-surface border border-border 
+                         rounded overflow-hidden transition-[border-color,box-shadow] duration-300 delay-200`}>
+              <div class="card-inner p-7 flex flex-col gap-[14px] h-full relative z-[1]">
+
+            <!-- Glow -->
+            <div class="card-glow absolute top-[-40%] right-[-30%] w-[220px] h-[220px]
+                        rounded-full blur-[80px] opacity-0 pointer-events-none z-0
+                        transition-opacity duration-500"
+                 style="background: var(--card-color);">
+            </div>
+
+            <!-- Index -->
+            <span class="font-mono text-[0.7rem] tracking-[0.12em] opacity-70"
+                  style="color: var(--card-color);">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+
+            <!-- Body -->
+            <div class="flex-1">
+              <h3 class="card-title text-[1.1rem] font-semibold tracking-[-0.02em]
+                         text-content mb-[10px] transition-colors duration-200">
+                {project.title}
+              </h3>
+              <p class="text-[0.87rem] text-muted leading-[1.7]">{project.description}</p>
+            </div>
+
+            <!-- Tags -->
+            <ul class="flex flex-wrap gap-[6px] list-none">
+              {project.tags.map(tag => (
+                <li class="card-tag font-mono text-[0.7rem] px-[10px] py-[3px]
+                           bg-white/[0.04] border border-border rounded-full
+                           text-dim tracking-[0.03em] transition-all duration-200">
+                  {tag}
+                </li>
+              ))}
+            </ul>
+
+            <!-- Links -->
+            <div class="flex gap-3 pt-1 border-t border-border">
+              <a href={project.repo} class="card-link flex items-center gap-[6px] font-mono
+                                           text-[0.78rem] font-medium text-muted
+                                           transition-colors duration-300" aria-label="Repositório">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                Repo
+              </a>
+              <a href={project.link} class="card-link flex items-center gap-[6px] font-mono
+                                            text-[0.78rem] font-medium text-muted
+                                            transition-colors duration-300" aria-label="Demo">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Live
+              </a>
+            </div>
+
+              </div>
+            </div>
+          </article>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Base raise animation triggered on outer card wrapper */
+  .project-card:hover {
+    transform: translateY(-7px) scale(1.012);
+  }
+
+  /* Dynamic card-color hover states applied to inner tilt layer */
+  .project-card:hover .tilt-layer {
+    border-color: color-mix(in srgb, var(--card-color) 40%, transparent);
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.3),
+      0 0 0 1px color-mix(in srgb, var(--card-color) 20%, transparent);
+  }
+  .project-card:hover .card-glow  { opacity: 0.08; }
+  .project-card:hover .card-title { color: var(--card-color); }
+  .project-card:hover .card-tag {
+    border-color: color-mix(in srgb, var(--card-color) 30%, transparent);
+    color: var(--color-content);
+  }
+  .project-card:hover .card-link  { color: var(--card-color); }
+</style>
+
+<script>
+  // Splitting responsibilities: Outer card raises smoothly with 200ms delay, 
+  // inner layer tilts instantly tracking mouse (respecting same 200ms delay).
+  document.querySelectorAll<HTMLElement>('.project-card').forEach((card) => {
+    
+    const tiltLayer = card.querySelector<HTMLElement>('.tilt-layer');
+    if (!tiltLayer) return;
+
+    let hoverTimer: number;
+    let isActive = false;
+
+    card.addEventListener('mouseenter', () => {
+      // Respect the CSS delay-200 class before starting tracking
+      hoverTimer = window.setTimeout(() => { isActive = true; }, 200);
+    });
+
+    card.addEventListener('mousemove', (e) => {
+      if (!isActive) return; // ignore movements until delay passes
+
+      const rect = card.getBoundingClientRect();
+      const x    = (e.clientX - rect.left) / rect.width  - 0.5;
+      const y    = (e.clientY - rect.top)  / rect.height - 0.5;
+      
+      tiltLayer.style.transform = 
+        `perspective(800px) rotateX(${-y*10}deg) rotateY(${x*10}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      clearTimeout(hoverTimer);
+      isActive = false;
+      tiltLayer.style.transform  = '';
+    });
+  });
+</script>

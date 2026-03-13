@@ -1,0 +1,186 @@
+---
+import { projects } from '../../data/projects';
+
+// 1. Gather all tags and calculate frequencies
+const tagCounts: Record<string, number> = {};
+projects.forEach(p => {
+  p.tags.forEach(tag => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
+});
+
+// 2. Map to an array of objects
+const skillsArray = Object.entries(tagCounts).map(([label, count]) => ({ label, count }));
+
+// 3. Sort by frequency (highest first)
+skillsArray.sort((a, b) => b.count - a.count);
+
+// 4. Take the top 6
+const topSkills = skillsArray.slice(0, 6);
+
+// 5. Calculate percentages based on the highest frequency
+const maxCount = topSkills.length > 0 ? topSkills[0].count : 1;
+---
+
+<section id="resume" class="py-[clamp(80px,12vw,140px)] bg-bg">
+  <div class="container-main">
+
+    <!-- Header -->
+    <div class="reveal mb-[clamp(40px,6vw,72px)]">
+      <p class="section-label">Resume</p>
+      <h2 class="section-title mt-[10px]">
+        Where I've <span class="neon-text">been.</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-[clamp(40px,6vw,80px)] items-start">
+
+      <!-- ── Experience Column ── -->
+      <div>
+        <h3 class="col-title reveal flex items-center gap-[10px] font-mono text-[0.8rem]
+                   tracking-[0.12em] uppercase text-muted mb-7">
+          <svg class="text-neon-cyan flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          Experience
+        </h3>
+
+        <ul class="timeline relative pl-5 list-none">
+          {[
+            {
+              date: "2022 — Present",
+              role: "Senior Front-End Developer",
+              company: "NovaTech Solutions",
+              desc: "Leading UI architecture for a SaaS platform serving 200k+ users. Implemented a design system, improved Core Web Vitals by 40%, and mentored a team of 4 engineers.",
+            },
+            {
+              date: "2019 — 2022",
+              role: "Mid Front-End Engineer",
+              company: "Prisma Labs",
+              desc: "Built real-time data visualization dashboards with D3.js and React, integrated WebSocket feeds, and shipped mobile-first redesigns across five product lines.",
+            },
+            {
+              date: "2017 — 2019",
+              role: "Junior Developer",
+              company: "Freelance",
+              desc: "Delivered responsive websites and e-commerce stores for 20+ small businesses. Hands-on with SEO optimization, WordPress and early React adoption.",
+            },
+          ].map((item, i) => (
+            <li class={`reveal reveal-delay-${i + 1} relative pb-9 last:pb-0`}>
+              <div class="timeline-dot absolute left-[-25px] top-[6px] w-[9px] h-[9px]
+                          rounded-full bg-neon-cyan shadow-[0_0_8px_var(--color-neon-cyan)]"></div>
+              <span class="font-mono text-[0.7rem] tracking-[0.06em] text-neon-cyan opacity-70">
+                {item.date}
+              </span>
+              <h4 class="text-[1rem] font-semibold text-content tracking-[-0.01em] my-[5px]">
+                {item.role}
+              </h4>
+              <span class="font-mono text-[0.82rem] text-muted">{item.company}</span>
+              <p class="text-[0.86rem] text-muted leading-[1.7] mt-[10px]">{item.desc}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- ── Right Column ── -->
+      <div class="flex flex-col gap-12">
+
+        <!-- Skills -->
+        <div>
+          <h3 class="reveal flex items-center gap-[10px] font-mono text-[0.8rem]
+                     tracking-[0.12em] uppercase text-muted mb-7">
+            <svg class="text-neon-cyan flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            Skills
+          </h3>
+
+          <div class="skills-list reveal reveal-delay-1 flex flex-col gap-[14px]">
+            {topSkills.map(skill => {
+                const pct = Math.round((skill.count / maxCount) * 100);
+                return (
+                  <div class="flex flex-col gap-[6px]">
+                    <div class="flex justify-between items-center">
+                      <span class="text-[0.83rem] text-dim font-medium">{skill.label}</span>
+                      <span class="font-mono text-[0.72rem] text-neon-cyan opacity-70">{pct}%</span>
+                    </div>
+                    <div class="h-[3px] bg-surface-2 rounded-full overflow-hidden">
+                      <div
+                        class="skill-bar-fill h-full rounded-full
+                               bg-gradient-to-r from-neon-blue to-dim
+                               shadow-[0_0_8px_rgba(207,255,139,0.3)]"
+                        style={`--fill: ${pct}%;`}>
+                      </div>
+                    </div>
+                  </div>
+                );
+            })}
+          </div>
+        </div>
+
+        <!-- Volunteer -->
+        <div>
+          <h3 class="reveal flex items-center gap-[10px] font-mono text-[0.8rem]
+                     tracking-[0.12em] uppercase text-muted mb-7">
+            <svg class="text-neon-cyan flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            Volunteer
+          </h3>
+
+          <ul class="reveal reveal-delay-1 flex flex-col gap-[22px] list-none">
+            {[
+              {
+                org: "Code.org",
+                role: "Teacher — Hour of Code",
+                desc: "Taught coding fundamentals to 300+ underprivileged children across community centers in São Paulo.",
+              },
+              {
+                org: "Dev Solidário",
+                role: "Tech Lead — Pro-bono projects",
+                desc: "Led development of three web platforms for NGOs with no technical team — free of charge.",
+              },
+            ].map(v => (
+              <li class="flex flex-col gap-1 p-[18px_20px] bg-surface border border-border
+                         rounded-sm transition-colors duration-300 hover:border-neon-cyan/20">
+                <span class="font-mono text-[0.75rem] tracking-[0.1em] text-neon-cyan opacity-80">
+                  {v.org}
+                </span>
+                <span class="text-[0.9rem] font-semibold text-content">{v.role}</span>
+                <p class="text-[0.83rem] text-muted leading-[1.65] mt-1">{v.desc}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Timeline vertical rule — needs pseudo + gradient */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--color-neon-cyan), var(--color-neon-purple), transparent);
+    opacity: 0.3;
+  }
+
+  /* Skill bar: starts at 0, animates to --fill when .skills-list gets .visible */
+  .skill-bar-fill { width: 0%; transition: width 1.2s cubic-bezier(0.25,1,0.5,1); }
+  .skills-list.visible .skill-bar-fill { width: var(--fill); }
+</style>
+
+<script>
+  const skillsObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          skillsObserver.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.25 }
+  );
+  document.querySelectorAll('.skills-list').forEach((el) => skillsObserver.observe(el));
+</script>

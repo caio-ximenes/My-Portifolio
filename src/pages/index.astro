@@ -1,11 +1,30 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import PrincipalLayout from '../layouts/PrincipalLayout/PrincipalLayout.astro';
+import Home     from '../components/Home/Home.astro';
+import About    from '../components/About/About.astro';
+import Projects from '../components/Projects/Projects.astro';
+import Contact  from '../components/Contact/Contact.astro';
+import Resume   from '../components/Resume/Resume.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<PrincipalLayout
+  title="Caio Ximenes"
+  description="Front-end developer crafting clean, performant and delightful digital experiences."
+>
+  <Home />
+  <About />
+  <Projects />
+  <Contact />
+  <Resume />
+
+  <footer class="py-7 border-t border-border bg-bg">
+    <div class="container-main flex items-center justify-between flex-wrap gap-3">
+      <span class="font-mono text-[0.85rem] text-muted">
+        <span class="text-neon-cyan">&lt;</span>caio<span class="text-neon-purple">.</span>dev<span class="text-neon-cyan">/&gt;</span>
+      </span>
+      <span class="font-mono text-[0.78rem] text-muted tracking-[0.03em]">
+        © 2025 — Caio Ximenes
+      </span>
+    </div>
+  </footer>
+</PrincipalLayout>

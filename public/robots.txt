@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Descomente a linha abaixo quando subir o site e souber o seu domínio (ex: https://caio.dev)
+# Sitemap: https://seudominio.com/sitemap.xml
