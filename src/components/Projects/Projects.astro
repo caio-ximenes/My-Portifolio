@@ -24,13 +24,14 @@ const sortedProjects = [...projects].sort((a, b) => {
       </p>
     </div>
 
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5">
+    <div class="project-grid grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5">
       {sortedProjects.map((project, i) => (
-        <div class="reveal h-full">
+        <div class="project-wrapper reveal h-full">
           <article
             class={`project-card h-full relative cursor-default transition-transform duration-[600ms] ease-out delay-200`}
             style={`--card-color: #CFFF8B;`}
           >
+            <!-- ... existing article content ... -->
             <div class={`tilt-layer h-full w-full relative bg-surface border border-border 
                          rounded overflow-hidden transition-[border-color,box-shadow] duration-300 delay-200 flex flex-col`}>
               
@@ -125,6 +126,38 @@ const sortedProjects = [...projects].sort((a, b) => {
   /* Base raise animation triggered on outer card wrapper */
   .project-card:hover {
     transform: translateY(-7px) scale(1.012);
+  }
+
+  /* Responsive Grid/Carousel */
+  @media (max-width: 768px) {
+    .project-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 1.25rem;
+      padding-bottom: 2rem;
+      margin-inline: -1.25rem;
+      padding-inline: 1.25rem;
+      scrollbar-width: none; /* Hide scrollbar for cleaner look */
+    }
+    .project-grid::-webkit-scrollbar {
+      display: none;
+    }
+    .project-wrapper {
+      flex: 0 0 85vw; /* Each card takes up 85% of viewport width */
+      scroll-snap-align: center;
+    }
+    /* Disable tilt on mobile for better performance/ux */
+    .project-card:hover {
+      transform: none;
+    }
+  }
+
+  /* Tablet / Smaller Desktop */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .project-grid {
+      grid-template-cols: repeat(2, 1fr);
+    }
   }
 
   /* Dynamic card-color hover states applied to inner tilt layer */

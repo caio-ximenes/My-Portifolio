@@ -2,13 +2,21 @@
 ---
 
 <header id="site-header" class="fixed top-0 left-0 right-0 z-[100] h-[68px] bg-bg/70 backdrop-blur-[18px] border-b border-border transition-all duration-300">
-  <div class="container-main h-full flex items-center justify-between">
+  <div class="container-main h-full flex items-center justify-between gap-4">
 
-    <a href="#home" class="font-mono text-[0.95rem] tracking-tight text-dim hover:text-content transition-colors duration-300" aria-label="Go to top">
+    <!-- Mobile Menu Toggle (Left on Mobile) -->
+    <button id="menu-toggle" class="md:hidden flex items-center justify-center w-10 h-10 text-muted hover:text-neon-cyan transition-colors" aria-label="Toggle menu" aria-expanded="false">
+      <svg id="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      <svg id="close-icon" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+
+    <!-- Logo (Centered on Mobile, Left on Desktop) -->
+    <a href="#home" class="logo-link font-mono text-[0.95rem] tracking-tight text-dim hover:text-content transition-colors duration-300 order-2 md:order-1" aria-label="Go to top">
       <span class="text-neon-cyan opacity-70">&lt;</span>ximenes<span class="text-neon-purple">.</span>dev<span class="text-neon-cyan opacity-70">/&gt;</span>
     </a>
 
-    <nav class="flex gap-1 items-center" aria-label="Main navigation">
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-1 order-2" aria-label="Main navigation">
       <a href="#home"     data-section="home"     class="nav-link">Início</a>
       <a href="#about"    data-section="about"    class="nav-link">Sobre mim</a>
       <a href="#projects" data-section="projects" class="nav-link">Projetos</a>
@@ -16,8 +24,8 @@
       <a href="#resume"   data-section="resume"   class="nav-link">Currículo</a>
     </nav>
 
-    <!-- Social Links -->
-    <div class="hidden md:flex items-center gap-4 pl-4 border-l border-border">
+    <!-- Social Links (Right on Mobile) -->
+    <div class="flex items-center gap-4 pl-0 md:pl-4 border-none md:border-l border-border order-3">
       <a href="https://github.com/caio-ximenes" target="_blank" rel="noopener noreferrer" 
          class="social-link text-muted hover:text-neon-cyan transition-colors duration-300" aria-label="GitHub">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
@@ -29,6 +37,17 @@
     </div>
 
   </div>
+
+  <!-- Mobile Navigation Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 top-[68px] z-50 bg-bg/95 backdrop-blur-xl translate-x-[-100%] transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] md:hidden">
+    <nav class="flex flex-col items-center justify-center h-full gap-8 p-8" aria-label="Mobile navigation">
+      <a href="#home"     data-section="home"     class="mobile-nav-link text-2xl font-mono">Início</a>
+      <a href="#about"    data-section="about"    class="mobile-nav-link text-2xl font-mono">Sobre mim</a>
+      <a href="#projects" data-section="projects" class="mobile-nav-link text-2xl font-mono">Projetos</a>
+      <a href="#contact"  data-section="contact"  class="mobile-nav-link text-2xl font-mono">Contato</a>
+      <a href="#resume"   data-section="resume"   class="mobile-nav-link text-2xl font-mono">Currículo</a>
+    </nav>
+  </div>
 </header>
 
 <style>
@@ -37,6 +56,7 @@
     box-shadow: 0 1px 0 var(--color-border), 0 4px 32px rgba(0,0,0,0.3);
   }
 
+  /* Desktop Nav Links */
   .nav-link {
     position: relative;
     padding: 6px 14px;
@@ -67,13 +87,63 @@
   .nav-link:hover::after,
   .nav-link.active::after { transform: translateX(-50%) scaleX(1); }
   .nav-link.active         { color: var(--color-neon-cyan); }
+
+  /* Mobile Nav Links */
+  .mobile-nav-link {
+    color: var(--color-muted);
+    transition: all 0.3s ease;
+  }
+  .mobile-nav-link:hover,
+  .mobile-nav-link.active {
+    color: var(--color-neon-cyan);
+    transform: scale(1.1);
+  }
+
+  /* Mobile Menu Visibility */
+  #mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  /* Center the logo on mobile using flex properties */
+  @media (max-width: 768px) {
+    .logo-link {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
 </style>
 
 <script>
-  const header   = document.getElementById('site-header')!;
-  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link');
+  const header = document.getElementById('site-header')!;
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link, .mobile-nav-link');
   const sections = document.querySelectorAll<HTMLElement>('section[id]');
+  
+  const menuToggle = document.getElementById('menu-toggle')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+  const hamburgerIcon = document.getElementById('hamburger-icon')!;
+  const closeIcon = document.getElementById('close-icon')!;
 
+  // Toggle Mobile Menu
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen.toString());
+    hamburgerIcon.classList.toggle('hidden', isOpen);
+    closeIcon.classList.toggle('hidden', !isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  // Close menu on link click
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburgerIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Scroll logic
   window.addEventListener('scroll', () => {
     header.classList.toggle('scrolled', window.scrollY > 20);
   }, { passive: true });
@@ -83,11 +153,14 @@
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.id;
-          navLinks.forEach((a) => a.classList.toggle('active', a.dataset.section === id));
+          navLinks.forEach((a) => {
+             const anchor = a as HTMLAnchorElement;
+             anchor.classList.toggle('active', anchor.dataset.section === id);
+          });
         }
       });
     },
     { rootMargin: '-40% 0px -55% 0px' }
   );
   sections.forEach((s) => spy.observe(s));
-</script>
+</script>
