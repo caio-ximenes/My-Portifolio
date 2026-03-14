@@ -18,8 +18,8 @@ skillsArray.sort((a, b) => b.count - a.count);
 // 4. Take the top 6
 const topSkills = skillsArray.slice(0, 6);
 
-// 5. Calculate percentages based on the highest frequency
-const maxCount = topSkills.length > 0 ? topSkills[0].count : 1;
+// 5. Calculate percentages based on the total number of projects
+const totalProjects = projects.length > 0 ? projects.length : 1;
 ---
 
 <section id="resume" class="py-[clamp(80px,12vw,140px)] bg-bg">
@@ -27,9 +27,9 @@ const maxCount = topSkills.length > 0 ? topSkills[0].count : 1;
 
     <!-- Header -->
     <div class="reveal mb-[clamp(40px,6vw,72px)]">
-      <p class="section-label">Resume</p>
+      <p class="section-label">Currículo</p>
       <h2 class="section-title mt-[10px]">
-        Where I've <span class="neon-text">been.</span>
+        Onde já <span class="neon-text">passei.</span>
       </h2>
     </div>
 
@@ -40,29 +40,23 @@ const maxCount = topSkills.length > 0 ? topSkills[0].count : 1;
         <h3 class="col-title reveal flex items-center gap-[10px] font-mono text-[0.8rem]
                    tracking-[0.12em] uppercase text-muted mb-7">
           <svg class="text-neon-cyan flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-          Experience
+          Experiência
         </h3>
 
         <ul class="timeline relative pl-5 list-none">
           {[
             {
-              date: "2022 — Present",
-              role: "Senior Front-End Developer",
-              company: "NovaTech Solutions",
-              desc: "Leading UI architecture for a SaaS platform serving 200k+ users. Implemented a design system, improved Core Web Vitals by 40%, and mentored a team of 4 engineers.",
+              date: "10/25 — Presente",
+              role: "Desenvolvedor Full-Stack",
+              company: "Ibmec Jr",
+              desc: "• Desenvolvimento de interfaces interativas modernas usando Astro, Tailwind, React e TypeScript.\n • Implementação de serviços backend com Node.js e Express.\n • Integração com bancos de dados como MongoDB e PostgreSQL.\n • Desenvolvimento de APIs RESTful para integração com outras aplicações.\n • Automação de processos com IA e Servidores MCP.",
             },
             {
-              date: "2019 — 2022",
-              role: "Mid Front-End Engineer",
-              company: "Prisma Labs",
-              desc: "Built real-time data visualization dashboards with D3.js and React, integrated WebSocket feeds, and shipped mobile-first redesigns across five product lines.",
-            },
-            {
-              date: "2017 — 2019",
-              role: "Junior Developer",
-              company: "Freelance",
-              desc: "Delivered responsive websites and e-commerce stores for 20+ small businesses. Hands-on with SEO optimization, WordPress and early React adoption.",
-            },
+              date: "04/25 - 10/25",
+              role: "Treinee de inovações",
+              company: "Ibmec Jr",
+              desc: "Análise de dados para otimização de funcionários e custos de transfers nos aeroportos do Rio de Janeiro.",
+            }
           ].map((item, i) => (
             <li class={`reveal reveal-delay-${i + 1} relative pb-9 last:pb-0`}>
               <div class="timeline-dot absolute left-[-25px] top-[6px] w-[9px] h-[9px]
@@ -74,7 +68,7 @@ const maxCount = topSkills.length > 0 ? topSkills[0].count : 1;
                 {item.role}
               </h4>
               <span class="font-mono text-[0.82rem] text-muted">{item.company}</span>
-              <p class="text-[0.86rem] text-muted leading-[1.7] mt-[10px]">{item.desc}</p>
+              <p class="text-[0.86rem] text-muted leading-[1.7] mt-[10px] whitespace-pre-line">{item.desc}</p>
             </li>
           ))}
         </ul>
@@ -93,7 +87,7 @@ const maxCount = topSkills.length > 0 ? topSkills[0].count : 1;
 
           <div class="skills-list reveal reveal-delay-1 flex flex-col gap-[14px]">
             {topSkills.map(skill => {
-                const pct = Math.round((skill.count / maxCount) * 100);
+                const pct = Math.round((skill.count / totalProjects) * 100);
                 return (
                   <div class="flex flex-col gap-[6px]">
                     <div class="flex justify-between items-center">
@@ -125,14 +119,14 @@ const maxCount = topSkills.length > 0 ? topSkills[0].count : 1;
           <ul class="reveal reveal-delay-1 flex flex-col gap-[22px] list-none">
             {[
               {
-                org: "Code.org",
-                role: "Teacher — Hour of Code",
-                desc: "Taught coding fundamentals to 300+ underprivileged children across community centers in São Paulo.",
+                org: "ICNV Freguesia",
+                role: "Produtor Músical e Músico",
+                desc: "montagem de equipamento, mixagem e masterização nos cultos e em suas transmissões online, gravação de faixas e produção de músicas.",
               },
               {
-                org: "Dev Solidário",
-                role: "Tech Lead — Pro-bono projects",
-                desc: "Led development of three web platforms for NGOs with no technical team — free of charge.",
+                org: "ICNV Freguesia",
+                role: "Líder de Grupo de Louvor de adolescentes",
+                desc: "Gestão de equipes de louvor, mentoria operacional e religiosa.",
               },
             ].map(v => (
               <li class="flex flex-col gap-1 p-[18px_20px] bg-surface border border-border

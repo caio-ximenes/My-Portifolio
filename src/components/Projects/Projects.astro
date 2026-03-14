@@ -1,30 +1,52 @@
 ---
 import { projects } from '../../data/projects';
+
+const sortedProjects = [...projects].sort((a, b) => {
+  const getWeight = (status: string) => {
+    if (status === 'Em breve...') return 0;
+    if (status === 'em progresso') return 1;
+    return 2;
+  };
+  return getWeight(a.status) - getWeight(b.status);
+});
 ---
 
 <section id="projects" class="py-[clamp(80px,12vw,140px)] bg-bg">
   <div class="container-main">
 
     <div class="mb-[clamp(40px,6vw,72px)] max-w-[560px]">
-      <p class="section-label reveal">Projects</p>
+      <p class="section-label reveal">Projetos</p>
       <h2 class="section-title reveal reveal-delay-1 mb-[14px]">
-        Stuff I've <span class="neon-text">built.</span>
+        O que tenho <span class="neon-text">feito.</span>
       </h2>
       <p class="reveal reveal-delay-2 text-muted text-[0.96rem]">
-        A selection of personal and professional projects. Hover to explore.
+        Aqui estão os projetos que desenvolvi para melhorar minhas habilidades e para ajudar as pessoas.
       </p>
     </div>
 
     <div class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5">
-      {projects.map((project, i) => (
+      {sortedProjects.map((project, i) => (
         <div class="reveal h-full">
           <article
             class={`project-card h-full relative cursor-default transition-transform duration-[600ms] ease-out delay-200`}
-            style={`--card-color: ${project.color};`}
+            style={`--card-color: #CFFF8B;`}
           >
             <div class={`tilt-layer h-full w-full relative bg-surface border border-border 
-                         rounded overflow-hidden transition-[border-color,box-shadow] duration-300 delay-200`}>
-              <div class="card-inner p-7 flex flex-col gap-[14px] h-full relative z-[1]">
+                         rounded overflow-hidden transition-[border-color,box-shadow] duration-300 delay-200 flex flex-col`}>
+              
+              {(project.image || project.status === 'Em breve...') && (
+                <div class="w-full h-[200px] overflow-hidden flex-shrink-0 relative border-b border-border">
+                  <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent z-10 pointer-events-none opacity-50"></div>
+                  <img 
+                    src={project.status === 'Em breve...' ? '/assets/images/em-breve.png' : project.image} 
+                    alt={project.title} 
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                    loading="lazy" 
+                  />
+                </div>
+              )}
+
+              <div class="card-inner p-7 flex flex-col gap-[14px] flex-grow relative z-[1]">
 
             <!-- Glow -->
             <div class="card-glow absolute top-[-40%] right-[-30%] w-[220px] h-[220px]
@@ -41,10 +63,18 @@ import { projects } from '../../data/projects';
 
             <!-- Body -->
             <div class="flex-1">
-              <h3 class="card-title text-[1.1rem] font-semibold tracking-[-0.02em]
-                         text-content mb-[10px] transition-colors duration-200">
-                {project.title}
-              </h3>
+              <div class="flex justify-between items-start mb-[10px] gap-2">
+                <h3 class="card-title text-[1.1rem] font-semibold tracking-[-0.02em]
+                           text-content transition-colors duration-200">
+                  {project.title}
+                </h3>
+                {project.status !== 'concluído' && (
+                  <span class={`text-[0.65rem] font-mono px-[8px] py-[2px] rounded-full border whitespace-nowrap mt-1 flex-shrink-0
+                    ${project.status === 'em progresso' ? 'border-neon-cyan/30 text-neon-cyan bg-neon-cyan/5' : 'border-[#FFD166]/30 text-[#FFD166] bg-[#FFD166]/5'}`}>
+                    {project.status}
+                  </span>
+                )}
+              </div>
               <p class="text-[0.87rem] text-muted leading-[1.7]">{project.description}</p>
             </div>
 
@@ -60,20 +90,26 @@ import { projects } from '../../data/projects';
             </ul>
 
             <!-- Links -->
-            <div class="flex gap-3 pt-1 border-t border-border">
-              <a href={project.repo} class="card-link flex items-center gap-[6px] font-mono
-                                           text-[0.78rem] font-medium text-muted
-                                           transition-colors duration-300" aria-label="Repositório">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                Repo
-              </a>
-              <a href={project.link} class="card-link flex items-center gap-[6px] font-mono
-                                            text-[0.78rem] font-medium text-muted
-                                            transition-colors duration-300" aria-label="Demo">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                Live
-              </a>
-            </div>
+            {Boolean(project.repo || project.link) && (
+              <div class="flex gap-3 pt-1 border-t border-border">
+                {Boolean(project.repo) && (
+                  <a target="_blank" rel="noopener noreferrer" href={project.repo} class="card-link flex items-center gap-[6px] font-mono
+                                                text-[0.78rem] font-medium text-muted
+                                                transition-colors duration-300" aria-label="Repositório">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    Repo
+                  </a>
+                )}
+                {Boolean(project.link) && (
+                  <a target="_blank" rel="noopener noreferrer" href={project.link} class="card-link flex items-center gap-[6px] font-mono
+                                                text-[0.78rem] font-medium text-muted
+                                                transition-colors duration-300" aria-label="Demo">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    Live
+                  </a>
+                )}
+              </div>
+            )}
 
               </div>
             </div>

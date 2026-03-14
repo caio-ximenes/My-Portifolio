@@ -1,4 +1,17 @@
 ---
+import { projects } from '../../data/projects';
+
+const tagCounts = projects.reduce((acc, project) => {
+  project.tags.forEach((tag) => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+const topSkills = Object.entries(tagCounts)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 6)
+  .map(([tag]) => tag);
 ---
 
 <section id="about" class="relative py-[clamp(80px,12vw,140px)] bg-bg-alt overflow-hidden">
@@ -13,10 +26,9 @@
 
       <!-- Text -->
       <div>
-        <p class="section-label reveal">About</p>
+        <p class="section-label reveal">Sobre mim</p>
         <h2 class="section-title reveal reveal-delay-1 mb-7">
-          Crafting interfaces<br />
-          that <span class="neon-text">just work.</span>
+          Apaixonado por <span class="neon-text">aprender.</span>
         </h2>
 
         <div class="reveal reveal-delay-2 flex flex-col gap-4 text-muted text-[0.97rem]
@@ -36,11 +48,11 @@
 
         <ul class="reveal reveal-delay-3 grid grid-cols-2 gap-x-6 gap-y-[10px]
                    font-mono text-[0.8rem] text-dim list-none">
-          {["TypeScript", "React", "Astro", "Node.js", "CSS / Sass", "Figma"].map(s => (
+          {topSkills.map((skill) => (
             <li class="flex items-center gap-[10px]">
               <span class="inline-block w-[5px] h-[5px] rounded-full flex-shrink-0
                            bg-neon-cyan shadow-neon-cyan"></span>
-              {s}
+              {skill}
             </li>
           ))}
         </ul>
@@ -51,7 +63,7 @@
 
         <div class="image-frame group relative w-full max-w-[340px] rounded overflow-hidden">
           <img
-            src="/profile.png"
+            src="/profile.jpeg"
             alt="Caio — developer portrait"
             loading="lazy"
             class="w-full aspect-[4/5] object-cover block
@@ -68,7 +80,7 @@
                     bg-surface border border-border px-4 py-2 rounded-full max-w-max">
           <span class="badge-dot w-[7px] h-[7px] rounded-full flex-shrink-0
                        bg-neon-green shadow-[0_0_8px_var(--color-neon-green)]"></span>
-          Available for projects
+          Open to work
         </div>
 
       </div>
